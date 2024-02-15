@@ -3,8 +3,11 @@
 Definition of class Auth
 """
 from flask import request
-from typing import List, TypeVar
-import os
+from typing import (
+    List,
+    TypeVar
+)
+
 
 class Auth:
     """
@@ -43,15 +46,6 @@ class Auth:
         """
         if request is None:
             return None
-
-        # Additional check for excluded path
-        excluded_paths = [
-            '/api/v1/auth_session/login/'
-        ]
-        path = request.path
-        if not self.require_auth(path, excluded_paths):
-            return None
-
         header = request.headers.get('Authorization')
         if header is None:
             return None
@@ -62,18 +56,3 @@ class Auth:
         Returns a User instance from information from a request object
         """
         return None
-
-    def session_cookie(self, request=None) -> str:
-        """
-        Get the value of the session cookie from the request.
-
-        Returns:
-        - None if request is None
-        - The value of the cookie named SESSION_NAME from request
-        """
-        if request is None:
-            return None
-
-        session_cookie_name = os.getenv("SESSION_NAME", "_my_session_id")
-        return request.cookies.get(session_cookie_name)
-
