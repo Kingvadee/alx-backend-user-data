@@ -43,6 +43,15 @@ class Auth:
         """
         if request is None:
             return None
+
+        # Additional check for excluded path
+        excluded_paths = [
+            '/api/v1/auth_session/login/'
+        ]
+        path = request.path
+        if not self.require_auth(path, excluded_paths):
+            return None
+
         header = request.headers.get('Authorization')
         if header is None:
             return None
