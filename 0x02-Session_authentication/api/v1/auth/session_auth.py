@@ -69,3 +69,11 @@ class SessionAuth(Auth):
             return False
         del self.user_id_by_session_id[session_cookie]
         return True
+    def session_cookie(self, request):
+        """
+        Get the value of the session cookie from the request.
+        """
+        # Implement the logic to retrieve the session cookie value from the request.
+        # This could involve parsing cookies or any other method that fits your authentication mechanism.
+        # For example:
+        return request.cookies.get('session_cookie_name')
