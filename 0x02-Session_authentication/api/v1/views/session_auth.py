@@ -2,8 +2,7 @@
 """ Module of Users views
 """
 import os
-from flask import abort, jsonify, request
-from api.v1.app import auth
+from flask import jsonify, request
 from api.v1.views import app_views
 from models.user import User
 
@@ -45,37 +44,3 @@ def handle_logout():
     if auth.destroy_session(request):
         return jsonify({}), 200
     abort(404)
-
-class SessionAuth:
-    # ... (existing methods)
-
-    def destroy_session(self, request=None):
-        """
-        Delete the user session/logout.
-        """
-        if request is None:
-            return False
-
-        session_cookie = self.session_cookie(request)
-
-        if session_cookie is None:
-            return False
-
-        user_id = self.user_id_for_session_id(session_cookie)
-
-        if user_id is None:
-            return False
-
-        # Delete the session ID
-        del self.user_id_by_session_id[session_cookie]
-        return True
-
-@app_views.route('/auth_session/logout', methods=['DELETE'], strict_slashes=False)
-def logout() -> str:
-    """
-    Logout user and destroy the session.
-    """
-    if not auth.destroy_session(request):
-        abort(404)
-
-    return jsonify({}), 200
