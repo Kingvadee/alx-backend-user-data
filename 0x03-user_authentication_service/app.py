@@ -49,7 +49,7 @@ def login() -> str:
     """
     email = request.form.get("email")
     password = request.form.get("password")
-
+    print(f"Email: {email}, Password: {password}")
     if not AUTH.valid_login(email, password):
         abort(401)
 
